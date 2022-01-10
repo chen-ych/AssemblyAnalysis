@@ -1,5 +1,5 @@
 CC=gcc
-SRCSUFFIX = .c
+SRCSUFFIX = .cpp
 SRCS= $(wildcard *$(SRCSUFFIX))
 OBJS = $(SRCS:$(SRCSUFFIX)=.S)
 LLs = $(SRCS:$(SRCSUFFIX)=.ll)

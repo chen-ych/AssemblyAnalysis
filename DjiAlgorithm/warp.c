@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
-
+#include <stdint.h>
 // #define SRC_CHANNEL 1
 // #define SRC_HEIGHT 2
 // #define SRC_WIDTH 128

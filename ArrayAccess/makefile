@@ -10,7 +10,20 @@ CLANG=clang
 LLC = /work/home/ychen/LLVM/build/bin/llc
 LLC_FLAG = -filetype=asm 
 LLVM_IR = -emit-llvm -S
+
+ARCH = x86
+AddArchFunc = $(foreach x, $($(1)), $(ARCH)$(x) )
+ARCH_O3O0OBJS = $(call AddArchFunc,O3O0OBJS)
+ARCH_O3O3OBJS = $(call AddArchFunc,O3O3OBJS)
+ARCH_O0O3OBJS = $(call AddArchFunc,O0O3OBJS)
+ARCH_LLs = $(call AddArchFunc,LLs)
+ARCH_LLO3s = $(call AddArchFunc,LLO3s)
+ARCH_OBJS = $(call AddArchFunc,OBJS)
+
+
 all: $(OBJS) $(LLs) $(O3O0OBJS) $(O0O3OBJS) $(O3O3OBJS) $(LLO3s)
+arch: $(ARCH_OBJS) $(ARCH_LLs) $(ARCH_O3O0OBJS) $(ARCH_O0O3OBJS) $(ARCH_O3O3OBJS) $(ARCH_LLO3s)
+
 
 %.O3.ll:%.c
 	$(CLANG) $(CFLAGS) -o $@ $^ $(LIBS) $(LLVM_IR)  -O3
