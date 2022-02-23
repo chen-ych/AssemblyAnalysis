@@ -1,7 +1,8 @@
 // fibonacci 1d array indirect access
-int a[600],i;
+int j=3,a[600]={1,2,3},i;
 int main() {
 	a[0]=1,a[1]=1;
+	j = 7;
 	for(i=2;i<600;i++) {
 	    a[i]=a[i-1]+a[i-2];
     }

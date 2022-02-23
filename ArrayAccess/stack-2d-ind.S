@@ -1,47 +1,56 @@
-	.text
 	.file	"stack-2d-ind.c"
-	.globl	main                    # -- Begin function main
-	.p2align	4, 0x90
-	.type	main,@function
-main:                                   # @main
-	.cfi_startproc
-# %bb.0:
-	pushq	%rbp
-	.cfi_def_cfa_offset 16
-	.cfi_offset %rbp, -16
-	movq	%rsp, %rbp
-	.cfi_def_cfa_register %rbp
-	movl	$0, -4(%rbp)
-	movl	$1, -68(%rbp)
-	movl	$2, -72(%rbp)
-	movl	-68(%rbp), %eax
-	subl	-72(%rbp), %eax
-	movslq	-68(%rbp), %rcx
-	imulq	$20, %rcx, %rcx
-	leaq	-64(%rbp), %rdx
-	movq	%rdx, %rsi
-	addq	%rcx, %rsi
-	movl	-68(%rbp), %edi
-	addl	-72(%rbp), %edi
-	movslq	%edi, %rcx
-	movl	%eax, (%rsi,%rcx,4)
-	movl	-72(%rbp), %eax
-	movslq	-68(%rbp), %rcx
-	movl	%eax, -24(%rbp,%rcx,4)
-	movl	-72(%rbp), %eax
-	addl	$2, %eax
-	movslq	-72(%rbp), %rcx
-	imulq	$20, %rcx, %rcx
-	addq	%rcx, %rdx
-	movl	%eax, 4(%rdx)
-	movl	-36(%rbp), %eax
-	popq	%rbp
-	.cfi_def_cfa %rsp, 8
-	retq
-.Lfunc_end0:
-	.size	main, .Lfunc_end0-main
-	.cfi_endproc
-                                        # -- End function
-	.ident	"clang version 10.0.1 (Red Hat 10.0.1-1.module_el8.3.0+467+cb298d5b)"
-	.section	".note.GNU-stack","",@progbits
-	.addrsig
+	.option nopic
+	.attribute arch, "rv32i2p0_m2p0_a2p0_f2p0_d2p0_c2p0_v_zfh_zvamo_zvlsseg"
+	.attribute unaligned_access, 0
+	.attribute stack_align, 16
+	.text
+	.align	1
+	.globl	main
+	.type	main, @function
+main:
+	addi	sp,sp,-96
+	sw	s0,92(sp)
+	addi	s0,sp,96
+	li	a5,1
+	sw	a5,-20(s0)
+	li	a5,2
+	sw	a5,-24(s0)
+	lw	a4,-20(s0)
+	lw	a5,-24(s0)
+	add	a2,a4,a5
+	lw	a4,-20(s0)
+	lw	a5,-24(s0)
+	sub	a3,a4,a5
+	lw	a4,-20(s0)
+	mv	a5,a4
+	slli	a5,a5,2
+	add	a5,a5,a4
+	add	a5,a5,a2
+	slli	a5,a5,2
+	addi	a5,a5,-16
+	add	a5,a5,s0
+	sw	a3,-68(a5)
+	lw	a5,-20(s0)
+	addi	a5,a5,10
+	slli	a5,a5,2
+	addi	a5,a5,-16
+	add	a5,a5,s0
+	lw	a4,-24(s0)
+	sw	a4,-68(a5)
+	lw	a5,-24(s0)
+	addi	a3,a5,2
+	lw	a4,-24(s0)
+	mv	a5,a4
+	slli	a5,a5,2
+	add	a5,a5,a4
+	slli	a5,a5,2
+	addi	a5,a5,-16
+	add	a5,a5,s0
+	sw	a3,-64(a5)
+	lw	a5,-56(s0)
+	mv	a0,a5
+	lw	s0,92(sp)
+	addi	sp,sp,96
+	jr	ra
+	.size	main, .-main
+	.ident	"GCC: (GNU) 11.2.1 20210813"

@@ -1,39 +1,51 @@
-	.text
 	.file	"stack-1d-ind.c"
-	.globl	main                    # -- Begin function main
-	.p2align	4, 0x90
-	.type	main,@function
-main:                                   # @main
-	.cfi_startproc
-# %bb.0:
-	pushq	%rbp
-	.cfi_def_cfa_offset 16
-	.cfi_offset %rbp, -16
-	movq	%rsp, %rbp
-	.cfi_def_cfa_register %rbp
-	movl	$0, -4(%rbp)
-	movl	$4, -36(%rbp)
-	movl	$5, -40(%rbp)
-	movl	$5, -28(%rbp)
-	movslq	-36(%rbp), %rax
-	movl	$2, -32(%rbp,%rax,4)
-	movl	-36(%rbp), %ecx
-	subl	$3, %ecx
-	movslq	%ecx, %rax
-	movl	$8, -32(%rbp,%rax,4)
-	movslq	-40(%rbp), %rax
-	movl	$3, -32(%rbp,%rax,4)
-	movl	-28(%rbp), %ecx
-	movslq	-36(%rbp), %rax
-	addl	-32(%rbp,%rax,4), %ecx
-	movl	%ecx, %eax
-	popq	%rbp
-	.cfi_def_cfa %rsp, 8
-	retq
-.Lfunc_end0:
-	.size	main, .Lfunc_end0-main
-	.cfi_endproc
-                                        # -- End function
-	.ident	"clang version 10.0.1 (Red Hat 10.0.1-1.module_el8.3.0+467+cb298d5b)"
-	.section	".note.GNU-stack","",@progbits
-	.addrsig
+	.option nopic
+	.attribute arch, "rv32i2p0_m2p0_a2p0_f2p0_d2p0_c2p0_v_zfh_zvamo_zvlsseg"
+	.attribute unaligned_access, 0
+	.attribute stack_align, 16
+	.text
+	.align	1
+	.globl	main
+	.type	main, @function
+main:
+	addi	sp,sp,-48
+	sw	s0,44(sp)
+	addi	s0,sp,48
+	li	a5,4
+	sw	a5,-20(s0)
+	li	a5,5
+	sw	a5,-24(s0)
+	li	a5,5
+	sw	a5,-44(s0)
+	lw	a5,-20(s0)
+	slli	a5,a5,2
+	addi	a5,a5,-16
+	add	a5,a5,s0
+	li	a4,2
+	sw	a4,-32(a5)
+	lw	a5,-20(s0)
+	addi	a5,a5,-3
+	slli	a5,a5,2
+	addi	a5,a5,-16
+	add	a5,a5,s0
+	li	a4,8
+	sw	a4,-32(a5)
+	lw	a5,-24(s0)
+	slli	a5,a5,2
+	addi	a5,a5,-16
+	add	a5,a5,s0
+	li	a4,3
+	sw	a4,-32(a5)
+	lw	a4,-44(s0)
+	lw	a5,-20(s0)
+	slli	a5,a5,2
+	addi	a5,a5,-16
+	add	a5,a5,s0
+	lw	a5,-32(a5)
+	add	a5,a4,a5
+	mv	a0,a5
+	lw	s0,44(sp)
+	addi	sp,sp,48
+	jr	ra
+	.size	main, .-main
+	.ident	"GCC: (GNU) 11.2.1 20210813"

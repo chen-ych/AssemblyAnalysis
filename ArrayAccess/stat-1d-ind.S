@@ -1,56 +1,72 @@
-	.text
 	.file	"stat-1d-ind.c"
-	.globl	main                    # -- Begin function main
-	.p2align	4, 0x90
-	.type	main,@function
-main:                                   # @main
-	.cfi_startproc
-# %bb.0:
-	pushq	%rbp
-	.cfi_def_cfa_offset 16
-	.cfi_offset %rbp, -16
-	movq	%rsp, %rbp
-	.cfi_def_cfa_register %rbp
-	movl	$0, -4(%rbp)
-	movl	$5, main.a+4
-	movslq	main.i, %rax
-	movl	$2, main.a(,%rax,4)
-	movl	main.i, %ecx
-	subl	$3, %ecx
-	movslq	%ecx, %rax
-	movl	$8, main.a(,%rax,4)
-	movslq	main.j, %rax
-	movl	$3, main.a(,%rax,4)
-	movl	main.a+4, %ecx
-	movslq	main.i, %rax
-	addl	main.a(,%rax,4), %ecx
-	movl	%ecx, %eax
-	popq	%rbp
-	.cfi_def_cfa %rsp, 8
-	retq
-.Lfunc_end0:
-	.size	main, .Lfunc_end0-main
-	.cfi_endproc
-                                        # -- End function
-	.type	main.a,@object          # @main.a
-	.local	main.a
-	.comm	main.a,24,16
-	.type	main.i,@object          # @main.i
-	.data
-	.p2align	2
-main.i:
-	.long	4                       # 0x4
-	.size	main.i, 4
-
-	.type	main.j,@object          # @main.j
-	.p2align	2
-main.j:
-	.long	5                       # 0x5
-	.size	main.j, 4
-
-	.ident	"clang version 10.0.1 (Red Hat 10.0.1-1.module_el8.3.0+467+cb298d5b)"
-	.section	".note.GNU-stack","",@progbits
-	.addrsig
-	.addrsig_sym main.a
-	.addrsig_sym main.i
-	.addrsig_sym main.j
+	.option nopic
+	.attribute arch, "rv32i2p0_m2p0_a2p0_f2p0_d2p0_c2p0_v_zfh_zvamo_zvlsseg"
+	.attribute unaligned_access, 0
+	.attribute stack_align, 16
+	.text
+	.align	1
+	.globl	main
+	.type	main, @function
+main:
+	addi	sp,sp,-16
+	sw	s0,12(sp)
+	addi	s0,sp,16
+	lui	a5,%hi(a.2)
+	addi	a5,a5,%lo(a.2)
+	li	a4,5
+	sw	a4,4(a5)
+	lui	a5,%hi(i.1)
+	lw	a5,%lo(i.1)(a5)
+	lui	a4,%hi(a.2)
+	addi	a4,a4,%lo(a.2)
+	slli	a5,a5,2
+	add	a5,a4,a5
+	li	a4,2
+	sw	a4,0(a5)
+	lui	a5,%hi(i.1)
+	lw	a5,%lo(i.1)(a5)
+	addi	a5,a5,-3
+	lui	a4,%hi(a.2)
+	addi	a4,a4,%lo(a.2)
+	slli	a5,a5,2
+	add	a5,a4,a5
+	li	a4,8
+	sw	a4,0(a5)
+	lui	a5,%hi(j.0)
+	lw	a5,%lo(j.0)(a5)
+	lui	a4,%hi(a.2)
+	addi	a4,a4,%lo(a.2)
+	slli	a5,a5,2
+	add	a5,a4,a5
+	li	a4,3
+	sw	a4,0(a5)
+	lui	a5,%hi(a.2)
+	addi	a5,a5,%lo(a.2)
+	lw	a4,4(a5)
+	lui	a5,%hi(i.1)
+	lw	a5,%lo(i.1)(a5)
+	lui	a3,%hi(a.2)
+	addi	a3,a3,%lo(a.2)
+	slli	a5,a5,2
+	add	a5,a3,a5
+	lw	a5,0(a5)
+	add	a5,a4,a5
+	mv	a0,a5
+	lw	s0,12(sp)
+	addi	sp,sp,16
+	jr	ra
+	.size	main, .-main
+	.local	a.2
+	.comm	a.2,24,4
+	.section	.sdata,"aw"
+	.align	2
+	.type	i.1, @object
+	.size	i.1, 4
+i.1:
+	.word	4
+	.align	2
+	.type	j.0, @object
+	.size	j.0, 4
+j.0:
+	.word	5
+	.ident	"GCC: (GNU) 11.2.1 20210813"

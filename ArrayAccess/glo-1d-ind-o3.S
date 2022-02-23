@@ -1,54 +1,97 @@
-	.text
 	.file	"glo-1d-ind-o3.c"
-	.globl	main                    # -- Begin function main
-	.p2align	4, 0x90
-	.type	main,@function
-main:                                   # @main
-	.cfi_startproc
-# %bb.0:
-	pushq	%rbp
-	.cfi_def_cfa_offset 16
-	.cfi_offset %rbp, -16
-	movq	%rsp, %rbp
-	.cfi_def_cfa_register %rbp
-	movl	$0, -4(%rbp)
-	movl	$1, a
-	movl	$1, a+4
-	movl	$2, i
-.LBB0_1:                                # =>This Inner Loop Header: Depth=1
-	cmpl	$600, i                 # imm = 0x258
-	jge	.LBB0_4
-# %bb.2:                                #   in Loop: Header=BB0_1 Depth=1
-	movl	i, %eax
-	subl	$1, %eax
-	movslq	%eax, %rcx
-	movl	a(,%rcx,4), %eax
-	movl	i, %edx
-	subl	$2, %edx
-	movslq	%edx, %rcx
-	addl	a(,%rcx,4), %eax
-	movslq	i, %rcx
-	movl	%eax, a(,%rcx,4)
-# %bb.3:                                #   in Loop: Header=BB0_1 Depth=1
-	movl	i, %eax
-	addl	$1, %eax
-	movl	%eax, i
-	jmp	.LBB0_1
-.LBB0_4:
-	movl	a+20, %eax
-	popq	%rbp
-	.cfi_def_cfa %rsp, 8
-	retq
-.Lfunc_end0:
-	.size	main, .Lfunc_end0-main
-	.cfi_endproc
-                                        # -- End function
-	.type	a,@object               # @a
-	.comm	a,2400,16
-	.type	i,@object               # @i
-	.comm	i,4,4
-	.ident	"clang version 10.0.1 (Red Hat 10.0.1-1.module_el8.3.0+467+cb298d5b)"
-	.section	".note.GNU-stack","",@progbits
-	.addrsig
-	.addrsig_sym a
-	.addrsig_sym i
+	.option nopic
+	.attribute arch, "rv32i2p0_m2p0_a2p0_f2p0_d2p0_c2p0_v_zfh_zvamo_zvlsseg"
+	.attribute unaligned_access, 0
+	.attribute stack_align, 16
+	.text
+	.globl	j
+	.section	.sdata,"aw"
+	.align	2
+	.type	j, @object
+	.size	j, 4
+j:
+	.word	3
+	.globl	a
+	.data
+	.align	2
+	.type	a, @object
+	.size	a, 2400
+a:
+	.word	1
+	.word	2
+	.word	3
+	.zero	2388
+	.globl	i
+	.section	.sbss,"aw",@nobits
+	.align	2
+	.type	i, @object
+	.size	i, 4
+i:
+	.zero	4
+	.text
+	.align	1
+	.globl	main
+	.type	main, @function
+main:
+	addi	sp,sp,-16
+	sw	s0,12(sp)
+	addi	s0,sp,16
+	lui	a5,%hi(a)
+	addi	a5,a5,%lo(a)
+	li	a4,1
+	sw	a4,0(a5)
+	lui	a5,%hi(a)
+	addi	a5,a5,%lo(a)
+	li	a4,1
+	sw	a4,4(a5)
+	lui	a5,%hi(j)
+	li	a4,7
+	sw	a4,%lo(j)(a5)
+	lui	a5,%hi(i)
+	li	a4,2
+	sw	a4,%lo(i)(a5)
+	j	.L2
+.L3:
+	lui	a5,%hi(i)
+	lw	a5,%lo(i)(a5)
+	addi	a5,a5,-1
+	lui	a4,%hi(a)
+	addi	a4,a4,%lo(a)
+	slli	a5,a5,2
+	add	a5,a4,a5
+	lw	a3,0(a5)
+	lui	a5,%hi(i)
+	lw	a5,%lo(i)(a5)
+	addi	a5,a5,-2
+	lui	a4,%hi(a)
+	addi	a4,a4,%lo(a)
+	slli	a5,a5,2
+	add	a5,a4,a5
+	lw	a4,0(a5)
+	lui	a5,%hi(i)
+	lw	a5,%lo(i)(a5)
+	add	a4,a3,a4
+	lui	a3,%hi(a)
+	addi	a3,a3,%lo(a)
+	slli	a5,a5,2
+	add	a5,a3,a5
+	sw	a4,0(a5)
+	lui	a5,%hi(i)
+	lw	a5,%lo(i)(a5)
+	addi	a4,a5,1
+	lui	a5,%hi(i)
+	sw	a4,%lo(i)(a5)
+.L2:
+	lui	a5,%hi(i)
+	lw	a4,%lo(i)(a5)
+	li	a5,599
+	ble	a4,a5,.L3
+	lui	a5,%hi(a)
+	addi	a5,a5,%lo(a)
+	lw	a5,20(a5)
+	mv	a0,a5
+	lw	s0,12(sp)
+	addi	sp,sp,16
+	jr	ra
+	.size	main, .-main
+	.ident	"GCC: (GNU) 11.2.1 20210813"
